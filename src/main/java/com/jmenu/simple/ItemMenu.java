@@ -10,13 +10,25 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-public class ItemMenu extends JLabel {
+class ItemMenu extends JLabel {
 
 	private Color fondo;
 
 	private Color seleccion;
 
 	private Color backgroundColor;
+
+	private int indice;
+
+	private SimpleMenu simpleMenu;
+
+	private void setFondo(Color fondo) {
+
+		this.fondo = fondo;
+
+		repaint();
+
+	}
 
 	public Color getSelected() {
 
@@ -72,18 +84,31 @@ public class ItemMenu extends JLabel {
 
 			public void mouseEntered(MouseEvent e) {
 
-				fondo = seleccion;
+				setFondo(seleccion);
 
-				repaint();
 			}
 
 			@Override
 
 			public void mouseExited(MouseEvent e) {
 
-				fondo = backgroundColor;
+				setFondo(backgroundColor);
 
-				repaint();
+			}
+
+			@Override
+
+			public void mousePressed(MouseEvent e) {
+
+				try {
+
+					simpleMenu.setPanel(indice);
+
+				}
+
+				catch (Exception e1) {
+
+				}
 
 			}
 
@@ -99,6 +124,14 @@ public class ItemMenu extends JLabel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		super.paintComponent(g);
+
+	}
+
+	public void setPanel(int indice, SimpleMenu simpleMenu) {
+
+		this.indice = indice;
+
+		this.simpleMenu = simpleMenu;
 
 	}
 

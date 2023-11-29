@@ -1,6 +1,7 @@
 package com.jmenu.simple;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -9,11 +10,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 
 public class SimpleMenu extends JPanel {
+
+	private Color colorCabecera;
+
+	private Color itemMenu;
 
 	private Cabecera cabecera;
 
@@ -27,13 +34,91 @@ public class SimpleMenu extends JPanel {
 
 	private boolean test;
 
-	private SimpleMenu esto;
-
 	private ArrayList<ItemMenu> items;
 
 	private Color seleccion;
 
 	private Color fondoMenu;
+
+	private JPanel btnNewButton;
+
+	private JPanel panel;
+
+	private int indice;
+
+	private List<JPanel> paneles;
+
+	private int ancho;
+
+	@Override
+	public void setFont(Font font) {
+
+		try {
+
+			cabecera.setFont(font);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	@Override
+	public void setForeground(Color fg) {
+
+		try {
+
+			cabecera.setForeground(fg);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public void setHeaderIcon(Icon icon) {
+
+		try {
+
+			cabecera.setIcon(icon);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public void setText(String text) {
+
+		try {
+
+			cabecera.setText(text);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public int getAncho() {
+
+		return ancho;
+
+	}
+
+	public void setAncho(int ancho) {
+
+		this.ancho = ancho;
+
+	}
 
 	public JPanel getCategorias() {
 
@@ -47,15 +132,49 @@ public class SimpleMenu extends JPanel {
 
 	}
 
-	public Color getSeleccion() {
+	public Color getItemMenu() {
+
+		return itemMenu;
+
+	}
+
+	public void setItemMenu(Color itemMenu) {
+
+		this.itemMenu = itemMenu;
+
+	}
+
+	public Color getColorCabecera() {
+
+		return colorCabecera;
+
+	}
+
+	public void setColorCabecera(Color colorCabecera) {
+
+		try {
+
+			this.colorCabecera = colorCabecera;
+
+			cabecera.setBackground(colorCabecera);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public Color getSeleccionMenu() {
 
 		return seleccion;
 
 	}
 
-	public void setSeleccion(Color seleccion) {
+	public void setSeleccionMenu(Color seleccionMenu) {
 
-		this.seleccion = seleccion;
+		this.seleccion = seleccionMenu;
 
 	}
 
@@ -71,13 +190,43 @@ public class SimpleMenu extends JPanel {
 
 	}
 
-	public SimpleMenu(List<String> categories) {
+	private void clickMenu() {
+
+		try {
+
+			abrirMenu(!menuAbierto);
+
+		}
+
+		catch (Exception e1) {
+
+		}
+
+	}
+
+	public SimpleMenu(List<String> categories, List<JPanel> panels) {
+
+		indice = -1;
+
+		ancho = 145;
+
+		try {
+
+			this.panel = panels.get(0);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+		paneles = panels;
 
 		seleccion = Color.LIGHT_GRAY;
 
 		fondoMenu = Color.WHITE;
 
-		items = new ArrayList();
+		items = new ArrayList<>();
 
 		addComponentListener(new ComponentAdapter() {
 
@@ -88,6 +237,8 @@ public class SimpleMenu extends JPanel {
 				cabecera.setBounds(0, 0, getWidth(), 50);
 
 				menu.setBounds(0, 50, getWidth(), getHeight() - 50);
+
+				clickMenu();
 
 			}
 
@@ -101,30 +252,20 @@ public class SimpleMenu extends JPanel {
 
 		cabecera = new Cabecera();
 
-		cabecera.setBackground(Color.ORANGE);
+		colorCabecera = Color.WHITE;
+
+		cabecera.setBackground(colorCabecera);
 
 		cabecera.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				try {
-
-					abrirMenu(!menuAbierto);
-
-				}
-
-				catch (Exception e1) {
-
-					e1.printStackTrace();
-
-				}
+				clickMenu();
 
 			}
 
 		});
-
-		cabecera.setBounds(0, 0, 450, 50);
 
 		add(cabecera);
 
@@ -132,21 +273,159 @@ public class SimpleMenu extends JPanel {
 
 		menu = new JPanel();
 
-		menu.setBackground(Color.PINK);
-
-		menu.setBounds(0, 50, 450, 251);
+		menu.setBackground(Color.GREEN);
 
 		add(menu);
 
-		menu.setLayout(null);
+		menu.setLayout(new GridLayout());
 
-		esto = this;
+		try {
+
+			abrirMenu(false);
+
+		}
+
+		catch (Exception e) {
+
+		}
 
 	}
 
-	private void abrirMenu(boolean abrir) {
+	void abrirMenu(boolean abrir) {
 
-		if (abrir) {
+		try {
+
+			if (abrir) {
+
+				menu.removeAll();
+
+				categorias.setBounds(0, 0, ancho, menu.getHeight());
+
+				categorias.setLayout(new GridLayout(categories.size(), 1));
+
+				menu.add(categorias);
+
+				ItemMenu item;
+
+				categorias.removeAll();
+
+				items.clear();
+
+				JLabel label;
+
+				for (int i = 0; i < categories.size(); i++) {
+
+					if (categories.get(i).startsWith("#")) {
+
+						label = new JLabel(categories.get(i).substring(1));
+
+						label.setBackground(Color.WHITE);
+
+						label.setForeground(itemMenu);
+
+						categorias.add(label);
+
+					}
+
+					else {
+
+						item = new ItemMenu(categories.get(i), seleccion, fondoMenu);
+
+						if (itemMenu != null) {
+
+							item.setForeground(itemMenu);
+
+							if (i < paneles.size()) {
+
+								item.setPanel(i, this);
+
+							}
+
+						}
+
+						items.add(item);
+
+						categorias.add(item);
+
+					}
+
+				}
+
+				categorias.setVisible(true);
+
+				categorias.repaint();
+
+				repaint();
+
+				if (!test) {
+
+					test = true;
+
+					abrirMenu(false);
+
+					abrirMenu(true);
+
+				}
+
+				if (indice > -1) {
+
+					try {
+
+						panel = paneles.get(indice);
+
+					}
+
+					catch (Exception e) {
+
+					}
+
+				}
+
+				panel.setBounds(categorias.getWidth(), 0, menu.getWidth() - categorias.getWidth(), menu.getHeight());
+
+				btnNewButton = panel;
+
+				menu.add(btnNewButton);
+
+			}
+
+			else {
+
+				categorias.removeAll();
+
+				categorias.setVisible(false);
+
+				panel.setBounds(0, 0, menu.getWidth(), menu.getHeight());
+
+				panel = new Prueba();
+
+				btnNewButton = panel;
+
+				menu.setLayout(null);
+
+				menu.add(panel);
+
+			}
+
+			menuAbierto = !menuAbierto;
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public void setPanel(int indice) {
+
+		try {
+
+			this.indice = indice;
+
+			this.panel = paneles.get(indice);
+
+			menu.removeAll();
 
 			categorias.setBounds(0, 0, 146, menu.getHeight());
 
@@ -160,9 +439,15 @@ public class SimpleMenu extends JPanel {
 
 			items.clear();
 
-			for (String nombre : categories) {
+			for (int i = 0; i < categories.size(); i++) {
 
-				item = new ItemMenu(nombre, Color.LIGHT_GRAY, Color.WHITE);
+				item = new ItemMenu(categories.get(i), seleccion, fondoMenu);
+
+				if (itemMenu != null) {
+
+					item.setForeground(itemMenu);
+
+				}
 
 				items.add(item);
 
@@ -172,31 +457,19 @@ public class SimpleMenu extends JPanel {
 
 			categorias.setVisible(true);
 
-			categorias.repaint();
+			panel.setBounds(categorias.getWidth(), 0, menu.getWidth() - categorias.getWidth(), menu.getHeight());
 
-			repaint();
+			btnNewButton = panel;
 
-			if (!test) {
+			menu.add(btnNewButton);
 
-				test = true;
-
-				abrirMenu(false);
-
-				abrirMenu(true);
-
-			}
+			abrirMenu(false);
 
 		}
 
-		else {
-
-			categorias.removeAll();
-
-			categorias.setVisible(false);
+		catch (Exception e) {
 
 		}
-
-		menuAbierto = !menuAbierto;
 
 	}
 

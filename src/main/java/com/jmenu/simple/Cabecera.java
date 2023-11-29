@@ -5,17 +5,68 @@ import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-public class Cabecera extends JPanel {
+class Cabecera extends JPanel {
 
 	private IconoCabecera icono;
 
 	private JLabel texto;
+
+	@Override
+	public void setFont(Font font) {
+
+		try {
+
+			texto.setFont(font);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public void setIcon(Icon icon) {
+
+		try {
+
+			icono.setIcon(icon);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
+
+	public void setText(String text) {
+
+		texto.setText(text);
+
+	}
+
+	@Override
+	public void setForeground(Color fg) {
+
+		try {
+
+			texto.setForeground(fg);
+
+		}
+
+		catch (Exception e) {
+
+		}
+
+	}
 
 	@Override
 	public void setBackground(Color bg) {

@@ -1,28 +1,85 @@
 package com.jmenu.simple;
 
 import java.awt.Graphics;
+import java.awt.Image;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class IconoCabecera extends JLabel {
+class IconoCabecera extends JLabel {
+
+	public boolean icono;
+
+	public Icon icon;
+
+	private Icon originalIcon;
+
+	@Override
+	public void setIcon(Icon icon) {
+
+		if (icon != null && icon.getIconWidth() > 0 && icon.getIconHeight() > 0) {
+
+			icono = true;
+
+			this.originalIcon = icon;
+
+			repaint();
+
+		}
+
+	}
+
+	private Icon resizeIcon(Icon icon, int width, int height) {
+
+		if (icon instanceof ImageIcon) {
+
+			Image originalImage = ((ImageIcon) icon).getImage();
+
+			Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+			return new ImageIcon(resizedImage);
+
+		}
+
+		else {
+
+			return icon;
+		}
+
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 
-		g.setColor(getBackground());
-		
-		g.fillRect(0, 0, getWidth(), getHeight());
+		if (!icono) {
 
-		final int UNIDAD = Math.round(getHeight() * 0.2f);
+			g.setColor(getBackground());
 
-		g.setColor(getForeground());
+			g.fillRect(0, 0, getWidth(), getHeight());
 
-		g.fillRect(0, 0, getWidth() - 1, UNIDAD);
+			final int UNIDAD = Math.round(getHeight() * 0.2f);
 
-		g.fillRect(0, UNIDAD * 2, getWidth() - 1, UNIDAD);
+			g.setColor(getForeground());
 
-		g.fillRect(0, UNIDAD * 4, getWidth() - 1, UNIDAD);
+			g.fillRect(0, 0, getWidth() - 1, UNIDAD);
+
+			g.fillRect(0, UNIDAD * 2, getWidth() - 1, UNIDAD);
+
+			g.fillRect(0, UNIDAD * 4, getWidth() - 1, UNIDAD);
+
+		}
+
+		else if (originalIcon != null) {
+
+			icon = resizeIcon(originalIcon, getWidth(), getHeight());
+
+			super.setIcon(icon);
+
+			super.paintComponent(g);
+
+		}
 
 	}
 
