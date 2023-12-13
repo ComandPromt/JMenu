@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-class Cabecera extends JPanel {
+public class Cabecera extends JPanel {
 
 	private IconoCabecera icono;
 

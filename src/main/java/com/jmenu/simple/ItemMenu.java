@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-class ItemMenu extends JLabel {
+public class ItemMenu extends JLabel {
 
 	private Color fondo;
 

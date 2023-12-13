@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-class IconoCabecera extends JLabel {
+public class IconoCabecera extends JLabel {
 
 	public boolean icono;
 
