@@ -4,13 +4,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Prueba extends JPanel {
-	public Prueba() {
+public class Prueba5 extends JPanel {
+
+	public Prueba5() {
+
 		setLayout(null);
 
-		JButton btnNewButton = new JButton("Prueba");
-		btnNewButton.setBounds(0, 98, 89, 23);
+		JButton btnNewButton = new JButton("Prueba 5");
+
+		btnNewButton.setBounds(0, 98, 186, 91);
+
 		add(btnNewButton);
+
 	}
 
 }

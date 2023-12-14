@@ -12,11 +12,13 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-public class Cabecera extends JPanel {
+class Cabecera extends JPanel {
 
 	private IconoCabecera icono;
 
 	private JLabel texto;
+
+	private int anchoIcono;
 
 	@Override
 	public void setFont(Font font) {
@@ -87,16 +89,16 @@ public class Cabecera extends JPanel {
 
 	public Cabecera() {
 
+		anchoIcono = 45;
+
 		addComponentListener(new ComponentAdapter() {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
 
-				int ancho = 45;
+				icono.setBounds(0, 0, anchoIcono, getHeight());
 
-				icono.setBounds(0, 0, ancho, getHeight());
-
-				texto.setBounds(ancho, 0, getWidth() - ancho, getHeight());
+				texto.setBounds(anchoIcono, 0, getWidth() - anchoIcono, getHeight());
 
 			}
 
@@ -119,6 +121,12 @@ public class Cabecera extends JPanel {
 		texto.setBounds(203, 0, 247, 300);
 
 		add(texto);
+
+	}
+
+	public void setAnchoIcono(int ancho) {
+
+		anchoIcono = ancho;
 
 	}
 

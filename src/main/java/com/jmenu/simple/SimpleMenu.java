@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import com.jmenu.paneles.Separador;
 
 @SuppressWarnings("serial")
 
@@ -49,6 +51,38 @@ public class SimpleMenu extends JPanel {
 	private List<JPanel> paneles;
 
 	private int ancho;
+
+	private List<JComponent> componentes;
+
+	private int alturaCabecera;
+
+	private int alturaMenu;
+
+	private boolean cero;
+
+	public int getAlturaMenu() {
+
+		return alturaMenu;
+
+	}
+
+	public void setAlturaMenu(int alturaMenu) {
+
+		this.alturaMenu = alturaMenu;
+
+	}
+
+	public int getAlturaCabecera() {
+
+		return alturaCabecera;
+
+	}
+
+	public void setAlturaCabecera(int alturaCabecera) {
+
+		this.alturaCabecera = alturaCabecera;
+
+	}
 
 	@Override
 	public void setFont(Font font) {
@@ -114,7 +148,13 @@ public class SimpleMenu extends JPanel {
 
 	}
 
-	public void setAncho(int ancho) {
+	public void setAnchoMenu(int ancho) {
+
+		if (ancho < 1) {
+
+			ancho = 300;
+
+		}
 
 		this.ancho = ancho;
 
@@ -147,6 +187,20 @@ public class SimpleMenu extends JPanel {
 	public Color getColorCabecera() {
 
 		return colorCabecera;
+
+	}
+
+	public void setAnchoIcono(int ancho) {
+
+		try {
+
+			cabecera.setAnchoIcono(ancho);
+
+		}
+
+		catch (Exception e) {
+
+		}
 
 	}
 
@@ -199,12 +253,38 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e1) {
-
+			e1.printStackTrace();
 		}
 
 	}
 
-	public SimpleMenu(List<String> categories, List<JPanel> panels) {
+	private void ponerLayout() {
+
+		int num1 = 0;
+
+		int num2 = 0;
+
+		if (categories != null) {
+
+			num1 = categories.size();
+
+		}
+
+		if (componentes != null) {
+
+			num2 = componentes.size();
+
+		}
+
+		categorias.setLayout(new GridLayout(num1 + num2, 1));
+
+	}
+
+	public SimpleMenu(List<String> categories, List<JPanel> panels, List<JComponent> componentes) {
+
+		alturaCabecera = 50;
+
+		this.componentes = componentes;
 
 		indice = -1;
 
@@ -234,9 +314,9 @@ public class SimpleMenu extends JPanel {
 
 			public void componentResized(ComponentEvent e) {
 
-				cabecera.setBounds(0, 0, getWidth(), 50);
+				cabecera.setBounds(0, 0, getWidth(), alturaCabecera);
 
-				menu.setBounds(0, 50, getWidth(), getHeight() - 50);
+				menu.setBounds(0, alturaCabecera, getWidth(), getHeight() - alturaCabecera);
 
 				clickMenu();
 
@@ -299,9 +379,23 @@ public class SimpleMenu extends JPanel {
 
 				menu.removeAll();
 
-				categorias.setBounds(0, 0, ancho, menu.getHeight());
+				if (alturaMenu < 1 || alturaMenu > menu.getHeight()) {
 
-				categorias.setLayout(new GridLayout(categories.size(), 1));
+					alturaMenu = menu.getHeight();
+
+				}
+
+				else if (alturaMenu < menu.getHeight()) {
+
+					categorias.setBackground(fondoMenu);
+
+					menu.setBackground(fondoMenu);
+
+				}
+
+				categorias.setBounds(0, 0, ancho, alturaMenu);
+
+				ponerLayout();
 
 				menu.add(categorias);
 
@@ -311,41 +405,75 @@ public class SimpleMenu extends JPanel {
 
 				items.clear();
 
-				JLabel label;
+				int contadorIndice = -1;
+				if (paneles != null) {
+					for (int i = 0; i < categories.size(); i++) {
 
-				for (int i = 0; i < categories.size(); i++) {
+						if (categories.get(i).startsWith("#")) {
 
-					if (categories.get(i).startsWith("#")) {
+							if (categories.get(i).equals("#")) {
 
-						label = new JLabel(categories.get(i).substring(1));
+								categorias.add(new Separador(null, itemMenu, fondoMenu));
 
-						label.setBackground(Color.WHITE);
+							}
 
-						label.setForeground(itemMenu);
+							else {
 
-						categorias.add(label);
-
-					}
-
-					else {
-
-						item = new ItemMenu(categories.get(i), seleccion, fondoMenu);
-
-						if (itemMenu != null) {
-
-							item.setForeground(itemMenu);
-
-							if (i < paneles.size()) {
-
-								item.setPanel(i, this);
+								categorias.add(new Separador(categories.get(i).substring(1), itemMenu, fondoMenu));
 
 							}
 
 						}
 
-						items.add(item);
+						else {
 
-						categorias.add(item);
+							contadorIndice++;
+
+							item = new ItemMenu(categories.get(i), seleccion, fondoMenu);
+
+							if (itemMenu != null) {
+
+								item.setForeground(itemMenu);
+
+								if (contadorIndice < paneles.size()) {
+
+									item.setPanel(contadorIndice, this);
+
+								}
+
+							}
+
+							items.add(item);
+
+							categorias.add(item);
+
+						}
+
+					}
+				}
+				if (componentes != null) {
+
+					PanelItem textIcon;
+
+					try {
+
+						for (int i = 0; i < componentes.size(); i++) {
+
+							textIcon = new PanelItem(componentes.get(i), fondoMenu);
+
+							textIcon.setItemMenu(itemMenu);
+
+							textIcon.setForeground(seleccion);
+
+							textIcon.setPanel(++contadorIndice, this);
+
+							categorias.add(textIcon);
+
+						}
+
+					}
+
+					catch (Exception e) {
 
 					}
 
@@ -395,7 +523,11 @@ public class SimpleMenu extends JPanel {
 
 				categorias.setVisible(false);
 
-				panel.setBounds(0, 0, menu.getWidth(), menu.getHeight());
+				if (panel != null) {
+
+					panel.setBounds(0, 0, menu.getWidth(), menu.getHeight());
+
+				}
 
 				panel = new Prueba();
 
@@ -412,7 +544,7 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 	}
@@ -427,9 +559,9 @@ public class SimpleMenu extends JPanel {
 
 			menu.removeAll();
 
-			categorias.setBounds(0, 0, 146, menu.getHeight());
+			categorias.setBounds(0, 0, getWidth(), menu.getHeight());
 
-			categorias.setLayout(new GridLayout(categories.size(), 1));
+			ponerLayout();
 
 			menu.add(categorias);
 

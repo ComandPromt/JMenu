@@ -10,7 +10,7 @@ import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 
-public class ItemMenu extends JLabel {
+class ItemMenu extends JLabel {
 
 	private Color fondo;
 
@@ -132,6 +132,12 @@ public class ItemMenu extends JLabel {
 		this.indice = indice;
 
 		this.simpleMenu = simpleMenu;
+
+	}
+
+	public int getIndice() {
+
+		return indice;
 
 	}
 

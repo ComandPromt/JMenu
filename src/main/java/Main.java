@@ -9,11 +9,19 @@ import java.util.LinkedList;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 
-import com.jmenu.simple.Cabecera;
+import com.jmenu.paneles.TextoConIcono;
+import com.jmenu.simple.Prueba;
+import com.jmenu.simple.Prueba1;
+import com.jmenu.simple.Prueba2;
+import com.jmenu.simple.Prueba3;
+import com.jmenu.simple.Prueba4;
+import com.jmenu.simple.Prueba5;
 import com.jmenu.simple.SimpleMenu;
 
 @SuppressWarnings("all")
@@ -21,7 +29,6 @@ import com.jmenu.simple.SimpleMenu;
 public class Main extends javax.swing.JFrame {
 
 	public Main() throws IOException {
-		getContentPane().setBackground(Color.PINK);
 
 		setTitle("");
 
@@ -67,64 +74,71 @@ public class Main extends javax.swing.JFrame {
 
 		lista.add("EEE");
 
-		lista.add("FF");
-
 		LinkedList<JPanel> paneles = new LinkedList();
 
-		paneles.add(new prueba.Prueba());
+		paneles.add(new Prueba());
 
-		paneles.add(new prueba.Prueba1());
+		paneles.add(new Prueba1());
 
-		LinkedList<ImageIcon> iconos = new LinkedList();
+		paneles.add(new Prueba2());
 
-		iconos.add(new ImageIcon("C:\\Users\\7\\Documents\\2023-12-07_18-05-01.png"));
+		paneles.add(new Prueba3());
 
-		iconos.add(null);
+		paneles.add(new Prueba4());
 
-		iconos.add(new ImageIcon("C:\\Users\\7\\Documents\\2023-12-07_18-05-01.png"));
+		paneles.add(new Prueba5());
 
-		SimpleMenu panel = new SimpleMenu(lista, paneles);
-		panel.setText("AAA");
+		LinkedList<JComponent> components = new LinkedList<>();
 
-		// panel.setAlturaPanel(400);
+		components
+				.add(new TextoConIcono("aaa", new ImageIcon("C:\\Users\\7\\Downloads\\descarga.png"), 40, Color.WHITE));
 
-		// panel.setIcon(new
-		// ImageIcon("C:\\Users\\7\\Documents\\2023-12-07_18-05-01.png"));
+		components.add(new JLabel("wwww"));
 
-		// panel.setAnchoIcono(ABORT);
+		SimpleMenu panel = null;
 
-//		panel.setAncho(40);
+		try {
 
-		panel.setFont(new Font("Algerian", Font.PLAIN, 20));
+			panel = new SimpleMenu(lista, null, components);
 
-		panel.setForeground(Color.WHITE);
+			panel.setAnchoIcono(40);
 
-		Cabecera lblNewLabel = new Cabecera();
-		lblNewLabel.setBackground(Color.WHITE);
+			panel.setAnchoMenu(300);
 
-//		panel.setItemMenu(Color.BLUE);
+			panel.setAlturaMenu(1000);
 
-		// panel.setSeleccionMenu(Color.MAGENTA);
+			panel.setHeaderIcon(new ImageIcon("C:\\Users\\7\\Downloads\\descarga.png"));
 
-		// panel.setFondoMenu(Color.LIGHT_GRAY);
+			panel.setFont(new Font("Algerian", Font.PLAIN, 20));
+
+			panel.setText("Menu");
+
+			panel.setForeground(Color.WHITE);
+
+			panel.setItemMenu(Color.BLUE);
+
+			panel.setSeleccionMenu(Color.MAGENTA);
+
+			panel.setFondoMenu(Color.LIGHT_GRAY);
+
+			panel.setColorCabecera(Color.ORANGE);
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 374, GroupLayout.PREFERRED_SIZE).addGap(18)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(23, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-								.addGroup(layout.createSequentialGroup().addGap(27).addComponent(lblNewLabel,
-										GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(242, Short.MAX_VALUE)));
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(panel,
+				GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(panel,
+				GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE));
 
 		getContentPane().setLayout(layout);
 
-		setSize(new Dimension(532, 552));
+		setSize(new Dimension(866, 647));
 
 		setLocationRelativeTo(null);
 

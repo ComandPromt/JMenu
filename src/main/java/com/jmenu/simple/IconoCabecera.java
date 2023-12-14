@@ -8,13 +8,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class IconoCabecera extends JLabel {
+class IconoCabecera extends JLabel {
 
 	public boolean icono;
 
 	public Icon icon;
 
 	private Icon originalIcon;
+
+	public IconoCabecera() {
+	}
+
+	public IconoCabecera(int width, int height) {
+
+		setSize(width, height);
+
+	}
 
 	@Override
 	public void setIcon(Icon icon) {
