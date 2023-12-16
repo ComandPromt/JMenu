@@ -5,15 +5,18 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.jmenu.simple.Cabecera;
-import com.jmenu.simple.IconoCabecera;
-import com.jmenu.simple.ItemMenu;
+import com.jmenu.paneles.Cabecera;
+import com.jmenu.paneles.IconoCabecera;
+import com.jmenu.paneles.ItemMenu;
 
 @SuppressWarnings("serial")
 public class ClassicSimpleMenu extends JPanel {
@@ -31,6 +34,48 @@ public class ClassicSimpleMenu extends JPanel {
 	private JPanel panel;
 
 	private IconoCabecera cabecera;
+
+	private LinkedList<JComponent> items;
+
+	public LinkedList<JComponent> getItems() {
+
+		return items;
+
+	}
+
+	public JComponent getItem(int index) {
+
+		JComponent resultado = null;
+
+		if (items != null && !items.isEmpty()) {
+
+			try {
+
+				if (index < 0) {
+
+					index = 0;
+
+				}
+
+				if (index >= items.size()) {
+
+					index = items.size() - 1;
+
+				}
+
+				resultado = items.get(index);
+
+			}
+
+			catch (Exception e) {
+
+			}
+
+		}
+
+		return resultado;
+
+	}
 
 	public JPanel getPanel() {
 
@@ -106,7 +151,7 @@ public class ClassicSimpleMenu extends JPanel {
 
 	}
 
-	private void hacerClick() {
+	public void hacerClick() {
 
 		abrir = !abrir;
 
@@ -114,7 +159,10 @@ public class ClassicSimpleMenu extends JPanel {
 
 	}
 
-	public ClassicSimpleMenu(Color seleccion, Color fondo, List<String> lista, List<ImageIcon> iconos) {
+	public ClassicSimpleMenu(Color seleccion, Color fondo, List<String> lista, List<String> iconos,
+			List<JComponent> components) {
+
+		items = new LinkedList<>();
 
 		addMouseListener(new MouseAdapter() {
 
@@ -164,35 +212,101 @@ public class ClassicSimpleMenu extends JPanel {
 
 		if (lista != null) {
 
-			panel.setLayout(new GridLayout(lista.size(), 1));
-
-			ItemMenu item;
+			JComponent item = null;
 
 			Cabecera cabecera;
 
-			for (int i = 0; i < lista.size(); i++) {
+			String dato;
 
-				item = new ItemMenu(lista.get(i), seleccion, fondo);
+			if (lista != null && !lista.isEmpty()) {
 
-				if (i < iconos.size()) {
+				for (int i = 0; i < lista.size(); i++) {
 
-					cabecera = new Cabecera();
+					if (iconos != null && !iconos.isEmpty() && i < iconos.size()) {
 
-					cabecera.setIcon(iconos.get(i));
+						cabecera = new Cabecera();
 
-					panel.add(cabecera);
+						if (i < lista.size()) {
 
-				}
+							cabecera.setText(lista.get(i));
 
-				else {
+						}
 
-					panel.add(item);
+						dato = iconos.get(i);
+
+						if (new File(dato).exists()) {
+
+							cabecera.setIcon(new ImageIcon(dato));
+
+						}
+
+						cabecera.addMouseListener(new MouseAdapter() {
+
+							@Override
+
+							public void mousePressed(MouseEvent e) {
+
+								hacerClick();
+
+							}
+
+						});
+
+						items.add(cabecera);
+
+						panel.add(cabecera);
+
+					}
+
+					else {
+
+						item = new ItemMenu(lista.get(i), seleccion, fondo);
+
+						item.addMouseListener(new MouseAdapter() {
+
+							@Override
+
+							public void mousePressed(MouseEvent e) {
+
+								hacerClick();
+
+							}
+
+						});
+
+						items.add(item);
+
+						panel.add(item);
+
+					}
 
 				}
 
 			}
 
 		}
+
+		if (components != null && !components.isEmpty()) {
+
+			LinkedList<JComponent> listaPaneles = new LinkedList<>();
+
+			for (int i = 0; i < components.size(); i++) {
+
+				listaPaneles.add(components.get(i));
+
+			}
+
+			for (int i = 0; i < listaPaneles.size(); i++) {
+
+				items.add(listaPaneles.get(i));
+
+				panel.add(listaPaneles.get(i));
+
+			}
+
+		}
+
+		panel.setLayout(new GridLayout(items.size(), 1));
 
 		add(panel);
 
@@ -219,13 +333,15 @@ public class ClassicSimpleMenu extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 
+		cabecera.setSize(anchoIcono, anchoIcono);
+
 		if (abrir) {
 
-			setSize(ancho, anchoIcono + alturaPanel); // Usa la variable alturaPanel
+			setSize(ancho, anchoIcono + alturaPanel);
 
 			panel.setBounds(0, anchoIcono, ancho, alturaPanel);
 
-			panel.setVisible(true); // Muestra el panel
+			panel.setVisible(true);
 
 		}
 
@@ -235,7 +351,7 @@ public class ClassicSimpleMenu extends JPanel {
 
 			panel.setBounds(0, anchoIcono, ancho, alturaPanel);
 
-			panel.setVisible(false); // Oculta el panel
+			panel.setVisible(false);
 
 			super.paintComponent(g);
 

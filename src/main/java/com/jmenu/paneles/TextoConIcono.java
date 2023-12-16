@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class TextoConIcono extends JPanel {
 
 	private JLabel lblNewLabel;
@@ -21,10 +22,6 @@ public class TextoConIcono extends JPanel {
 	private int icono;
 
 	private int alto;
-
-	private Color fondo;
-
-	private int indice;
 
 	private Icon icon;
 

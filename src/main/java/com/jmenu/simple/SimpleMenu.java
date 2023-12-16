@@ -14,6 +14,9 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import com.jmenu.paneles.Cabecera;
+import com.jmenu.paneles.ItemMenu;
+import com.jmenu.paneles.PanelItem;
 import com.jmenu.paneles.Separador;
 
 @SuppressWarnings("serial")
@@ -57,8 +60,6 @@ public class SimpleMenu extends JPanel {
 	private int alturaCabecera;
 
 	private int alturaMenu;
-
-	private boolean cero;
 
 	public int getAlturaMenu() {
 
@@ -244,7 +245,7 @@ public class SimpleMenu extends JPanel {
 
 	}
 
-	private void clickMenu() {
+	public void clickMenu() {
 
 		try {
 
@@ -253,7 +254,7 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e1) {
-			e1.printStackTrace();
+
 		}
 
 	}
@@ -406,7 +407,9 @@ public class SimpleMenu extends JPanel {
 				items.clear();
 
 				int contadorIndice = -1;
-				if (paneles != null) {
+
+				if (categories != null) {
+
 					for (int i = 0; i < categories.size(); i++) {
 
 						if (categories.get(i).startsWith("#")) {
@@ -450,7 +453,9 @@ public class SimpleMenu extends JPanel {
 						}
 
 					}
+
 				}
+
 				if (componentes != null) {
 
 					PanelItem textIcon;
@@ -460,6 +465,12 @@ public class SimpleMenu extends JPanel {
 						for (int i = 0; i < componentes.size(); i++) {
 
 							textIcon = new PanelItem(componentes.get(i), fondoMenu);
+
+							if (categories == null || categories.isEmpty()) {
+
+								textIcon.setVacio(true);
+
+							}
 
 							textIcon.setItemMenu(itemMenu);
 
@@ -474,6 +485,8 @@ public class SimpleMenu extends JPanel {
 					}
 
 					catch (Exception e) {
+
+						e.printStackTrace();
 
 					}
 
@@ -529,7 +542,7 @@ public class SimpleMenu extends JPanel {
 
 				}
 
-				panel = new Prueba();
+				panel = new JPanel();
 
 				btnNewButton = panel;
 
@@ -544,7 +557,7 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e) {
-			e.printStackTrace();
+
 		}
 
 	}
