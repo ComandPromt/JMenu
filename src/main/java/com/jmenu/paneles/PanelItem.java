@@ -60,7 +60,7 @@ public class PanelItem extends JPanel {
 
 	}
 
-	public PanelItem(JComponent component, Color fondo) {
+	public PanelItem(JComponent component, final Color fondo) {
 
 		addMouseListener(new MouseAdapter() {
 			@Override

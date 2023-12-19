@@ -283,86 +283,90 @@ public class SimpleMenu extends JPanel {
 
 	public SimpleMenu(List<String> categories, List<JPanel> panels, List<JComponent> componentes) {
 
-		alturaCabecera = 50;
-
-		this.componentes = componentes;
-
-		indice = -1;
-
-		ancho = 145;
-
 		try {
 
-			this.panel = panels.get(0);
+			alturaCabecera = 50;
 
-		}
+			this.componentes = componentes;
 
-		catch (Exception e) {
+			indice = -1;
 
-		}
+			ancho = 145;
 
-		paneles = panels;
+			try {
 
-		seleccion = Color.LIGHT_GRAY;
-
-		fondoMenu = Color.WHITE;
-
-		items = new ArrayList<>();
-
-		addComponentListener(new ComponentAdapter() {
-
-			@Override
-
-			public void componentResized(ComponentEvent e) {
-
-				cabecera.setBounds(0, 0, getWidth(), alturaCabecera);
-
-				menu.setBounds(0, alturaCabecera, getWidth(), getHeight() - alturaCabecera);
-
-				clickMenu();
+				this.panel = panels.get(0);
 
 			}
 
-		});
-
-		this.categories = categories;
-
-		categorias = new JPanel();
-
-		setLayout(null);
-
-		cabecera = new Cabecera();
-
-		colorCabecera = Color.WHITE;
-
-		cabecera.setBackground(colorCabecera);
-
-		cabecera.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-				clickMenu();
-
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 
-		});
+			paneles = panels;
 
-		add(cabecera);
+			seleccion = Color.LIGHT_GRAY;
 
-		cabecera.setLayout(null);
+			fondoMenu = Color.WHITE;
 
-		menu = new JPanel();
+			items = new ArrayList<>();
 
-		menu.setBackground(Color.GREEN);
+			addComponentListener(new ComponentAdapter() {
 
-		add(menu);
+				@Override
 
-		menu.setLayout(new GridLayout());
+				public void componentResized(ComponentEvent e) {
 
-		try {
+					cabecera.setBounds(0, 0, getWidth(), alturaCabecera);
+
+					menu.setBounds(0, alturaCabecera, getWidth(), getHeight() - alturaCabecera);
+
+					clickMenu();
+
+				}
+
+			});
+
+			this.categories = categories;
+
+			categorias = new JPanel();
+
+			setLayout(null);
+
+			cabecera = new Cabecera();
+
+			colorCabecera = Color.WHITE;
+
+			cabecera.setBackground(colorCabecera);
+
+			cabecera.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+
+					clickMenu();
+
+				}
+
+			});
+
+			add(cabecera);
+
+			cabecera.setLayout(null);
+
+			menu = new JPanel();
+
+			menu.setBackground(Color.GREEN);
+
+			add(menu);
+
+			menu.setLayout(new GridLayout());
+
+			setPanel(0);
 
 			abrirMenu(false);
+
+			clickMenu();
 
 		}
 
@@ -438,11 +442,11 @@ public class SimpleMenu extends JPanel {
 
 								item.setForeground(itemMenu);
 
-								if (contadorIndice < paneles.size()) {
+							}
 
-									item.setPanel(contadorIndice, this);
+							if (contadorIndice < paneles.size()) {
 
-								}
+								item.setPanel(contadorIndice, this);
 
 							}
 
@@ -557,7 +561,7 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 	}
@@ -613,7 +617,7 @@ public class SimpleMenu extends JPanel {
 		}
 
 		catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 	}
