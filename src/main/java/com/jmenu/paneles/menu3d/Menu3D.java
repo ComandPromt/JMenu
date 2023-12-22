@@ -40,8 +40,6 @@ public class Menu3D extends JComponent {
 
 	private int pressedIndex = -1;
 
-	private LinkedList<String> lista;
-
 	public void setBackgroundSelected(Color color) {
 
 		try {
