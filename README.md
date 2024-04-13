@@ -12,7 +12,7 @@
 
 ![Preview](previews/3.gif)
 
-~~~~java
+~~~java
 
  //Simple Menu
  
